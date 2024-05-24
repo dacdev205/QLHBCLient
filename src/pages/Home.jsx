@@ -75,6 +75,21 @@ const Home = () => {
   const toggleSearchInfo = () => {
     setShowSearchInfo(!showSearchInfo);
   };
+  const handleDeleteSelectedStudents = () => {
+    axios
+      .delete(
+        `http://192.168.234.154:8080/api/hocsinh/${selectedStudents.join(",")}`
+      )
+      .then(() => {
+        setFilteredStudents((prevState) =>
+          prevState.filter((student) => !selectedStudents.includes(student.id))
+        );
+        setSelectedStudents([]);
+      })
+      .catch((error) =>
+        console.error("Error deleting selected students:", error)
+      );
+  };
   return (
     <div className="min-h-screen w-full bg-white">
       <div className="container mx-auto py-8">
@@ -101,17 +116,7 @@ const Home = () => {
                 onChange={handleSearchChange}
                 className="p-2 rounded bg-white text-teal-800 border-solid border-2"
               />
-              <select
-                name="khoi"
-                value={searchParams.khoi}
-                onChange={handleSearchChange}
-                className="p-2 rounded bg-white text-teal-800 border-solid border-2"
-              >
-                <option value="">Khối</option>
-                <option value="KTPM">KTPM</option>
-                <option value="CNTT">CNTT</option>
-                {/* Thêm các giá trị khác tại đây */}
-              </select>
+
               <select
                 name="gioitinh"
                 value={searchParams.gioitinh}
@@ -176,7 +181,10 @@ const Home = () => {
             Thêm mới
           </Link>
 
-          <button className="btn m-2 bg-teal-900  text-white hover:bg-teal-700">
+          <button
+            onClick={handleDeleteSelectedStudents}
+            className="btn m-2 bg-teal-900  text-white hover:bg-teal-700"
+          >
             Xoá
           </button>
         </div>
@@ -222,13 +230,7 @@ const Home = () => {
                   scope="col"
                   className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider"
                 >
-                  CCCD
-                </th>
-                <th
-                  scope="col"
-                  className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider"
-                >
-                  Email
+                  maDinhDanh
                 </th>
                 <th
                   scope="col"
@@ -242,12 +244,7 @@ const Home = () => {
                 >
                   Lớp
                 </th>
-                <th
-                  scope="col"
-                  className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider"
-                >
-                  Khối
-                </th>
+
                 <th
                   scope="col"
                   className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider"
@@ -271,33 +268,29 @@ const Home = () => {
                       />
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                      {student.hoten}
+                      {student.hoTen}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm">
-                      {student.ngaysinh
-                        ? new Date(student.ngaysinh).toLocaleDateString()
+                      {student.ngaySinh
+                        ? new Date(student.ngaySinh).toLocaleDateString()
                         : "N/A"}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm">
-                      {student.gioitinh ? "Nam" : "Nữ"}
+                      {student.gioiTinh ? "Nam" : "Nữ"}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm">
-                      {student.cccd}
+                      {student.maDinhDanh}
+                    </td>
+
+                    <td className="px-6 py-4 whitespace-nowrap text-sm">
+                      {student.thuongTru.slice(0, 30)}...
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm">
-                      {student.email}
+                      {student.lop}
                     </td>
+
                     <td className="px-6 py-4 whitespace-nowrap text-sm">
-                      {student.thuongtru}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm">
-                      {student.tenlop}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm">
-                      {student.khoi}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm">
-                      {student.trangthai ? "Đang Học" : "Không Học"}
+                      {student.trangThai ? "Đang Học" : "Không Học"}
                     </td>
                   </tr>
                 ))

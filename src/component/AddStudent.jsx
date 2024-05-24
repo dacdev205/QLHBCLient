@@ -1,29 +1,29 @@
-// AddStudent.jsx
-
+import axios from "axios";
 import React, { useState } from "react";
 
 const AddStudent = () => {
-  const [formData, setFormData] = useState({
-    hoten: "",
-    ngaysinh: "",
-    gioitinh: false,
-    cccd: "",
+  const initialFormData = {
+    hoTen: "",
+    ngaySinh: "",
+    gioiTinh: false,
+    maDinhDanh: "",
     email: "",
-    hinhanh: "",
+    hinhAnh: "",
     tinh: "",
     huyen: "",
     xa: "",
-    noisinh: "",
-    thuongtru: "",
-    tamtru: "",
-    dantoc: "",
-    tongiao: "",
-    mahs: "",
-    tenlop: "",
-    khoi: "",
-    trangthai: true,
-    nhaphoc: "",
-  });
+    noiSinh: "",
+    thuongTru: "",
+    tamTru: "",
+    danToc: "",
+    tonGiao: "",
+    maHs: "",
+    lop: "",
+    trangThai: true,
+    nhapHoc: "",
+  };
+
+  const [formData, setFormData] = useState(initialFormData);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -35,102 +35,82 @@ const AddStudent = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Gửi dữ liệu formData đi đâu đó (ví dụ: gọi API để lưu dữ liệu)
     console.log(formData);
-    // Reset form
-    setFormData({
-      hoten: "",
-      ngaysinh: "",
-      gioitinh: false,
-      cccd: "",
-      email: "",
-      hinhanh: "",
-      tinh: "",
-      huyen: "",
-      xa: "",
-      noisinh: "",
-      thuongtru: "",
-      tamtru: "",
-      dantoc: "",
-      tongiao: "",
-      mahs: "",
-      tenlop: "",
-      khoi: "",
-      trangthai: true,
-      nhaphoc: "",
-    });
+    setFormData(initialFormData);
+    axios
+      .post("http://192.168.234.154:8080/api/hocsinh/add", formData)
+      .then((response) => {
+        console.log(response.data);
+      });
   };
 
   return (
-    <div className="bg-white w-full min-h-screen">
+    <div className="bg-white w-full min-h-screen text-black">
       <h1>Thông tin chung</h1>
       <div className="container mx-auto py-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 min-h-screen bg-white gap-4">
-        <div className="col-span-1 md:col-span-1 lg:col-span-1">
-          {/* Cột upload hình */}
-          <h1 className="text-xl font-bold mb-2 text-black">Upload hình</h1>
-          {/* Thêm input để upload hình ở đây */}
+        <div>
+          <img
+            className="w-64 h-64 object-cover"
+            src="/istockphoto-1300845620-612x612.jpg"
+            alt=""
+          />
+          <label htmlFor="hinhAnh"></label>
+          <input
+            type="file"
+            id="hinhAnh"
+            name="hinhAnh"
+            value={formData.hinhAnh}
+            onChange={handleChange}
+            className="border border-gray-300 rounded px-3 py-2 bg-white"
+          />
         </div>
         <div className="col-span-1 md:col-span-1 lg:col-span-2">
-          {/* Hai cột nhập thông tin */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mr-10">
             <div>
               <div>
-                <label htmlFor="hoten">Họ tên:</label>
+                <label htmlFor="hoTen">Họ tên:</label>
                 <input
                   type="text"
-                  id="hoten"
-                  name="hoten"
-                  value={formData.hoten}
+                  id="hoTen"
+                  name="hoTen"
+                  value={formData.hoTen}
                   onChange={handleChange}
-                  className="border border-gray-300 rounded px-3 py-2 w-full"
+                  className="border border-gray-300 rounded px-3 py-2 w-full bg-white"
                 />
               </div>
               <div>
-                <label htmlFor="ngaysinh">Ngày sinh:</label>
+                <label htmlFor="ngaySinh">Ngày sinh:</label>
                 <input
                   type="date"
-                  id="ngaysinh"
-                  name="ngaysinh"
-                  value={formData.ngaysinh}
+                  id="ngaySinh"
+                  name="ngaySinh"
+                  value={formData.ngaySinh}
                   onChange={handleChange}
-                  className="border border-gray-300 rounded px-3 py-2 w-full"
+                  className="border border-gray-300 rounded px-3 py-2 w-full bg-white"
                 />
               </div>
               <div>
-                <label htmlFor="gioitinh">Giới tính:</label>
+                <label htmlFor="gioiTinh">Giới tính:</label>
                 <select
-                  id="gioitinh"
-                  name="gioitinh"
-                  value={formData.gioitinh}
+                  id="gioiTinh"
+                  name="gioiTinh"
+                  value={formData.gioiTinh}
                   onChange={handleChange}
-                  className="border border-gray-300 rounded px-3 py-2 w-full"
+                  className="border border-gray-300 rounded px-3 py-2 w-full bg-white"
                 >
                   <option value={true}>Nam</option>
                   <option value={false}>Nữ</option>
                 </select>
               </div>
               <div>
-                <label htmlFor="khoi">Khối:</label>
-                <select
-                  id="khoi"
-                  name="khoi"
-                  value={formData.khoi}
-                  onChange={handleChange}
-                  className="border border-gray-300 rounded px-3 py-2 w-full"
-                >
-                  <option value={true}>1</option>
-                  <option value={false}>2</option>
-                </select>
-              </div>
-              <div>
-                <label htmlFor="cccd">CCCD:</label>
+                <label htmlFor="maDinhDanh">Mã định danh:</label>
                 <input
                   type="text"
-                  id="cccd"
-                  name="cccd"
-                  value={formData.cccd}
+                  id="maDinhDanh"
+                  name="maDinhDanh"
+                  value={formData.maDinhDanh}
                   onChange={handleChange}
-                  className="border border-gray-300 rounded px-3 py-2 w-full"
+                  className="border border-gray-300 rounded px-3 py-2 w-full bg-white"
                 />
               </div>
               <div>
@@ -141,33 +121,55 @@ const AddStudent = () => {
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  className="border border-gray-300 rounded px-3 py-2 w-full"
+                  className="border border-gray-300 rounded px-3 py-2 w-full bg-white"
                 />
               </div>
-
               <div>
-                <label htmlFor="mahs">Mã học sinh:</label>
+                <label htmlFor="maHs">Mã học sinh:</label>
                 <input
                   type="text"
-                  id="mahs"
-                  name="mahs"
-                  value={formData.mahs}
+                  id="maHs"
+                  name="maHs"
+                  value={formData.maHs}
                   onChange={handleChange}
-                  className="border border-gray-300 rounded px-3 py-2 w-full"
+                  className="border border-gray-300 rounded px-3 py-2 w-full bg-white"
+                />
+              </div>
+              <div>
+                <label htmlFor="lop">Tên lớp:</label>
+                <input
+                  type="text"
+                  id="lop"
+                  name="lop"
+                  value={formData.lop}
+                  onChange={handleChange}
+                  className="border border-gray-300 rounded px-3 py-2 w-full bg-white"
+                />
+              </div>
+              <div>
+                <label htmlFor="nhapHoc">Ngày nhập học:</label>
+                <input
+                  type="date"
+                  id="nhapHoc"
+                  name="nhapHoc"
+                  value={formData.nhapHoc}
+                  onChange={handleChange}
+                  className="border border-gray-300 rounded px-3 py-2 w-full bg-white"
                 />
               </div>
             </div>
             <div>
               <div>
-                <label htmlFor="tongiao">Tôn giáo:</label>
+                <label htmlFor="tonGiao">Tôn giáo:</label>
                 <select
-                  id="tongiao"
-                  name="tongiao"
-                  value={formData.tongiao}
+                  id="tonGiao"
+                  name="tonGiao"
+                  value={formData.tonGiao}
                   onChange={handleChange}
-                  className="border border-gray-300 rounded px-3 py-2 w-full"
+                  className="border border-gray-300 rounded px-3 py-2 w-full bg-white"
                 >
                   <option value="">Chọn tôn giáo</option>
+                  <option value="không">Không</option>
                   {/* Thêm các tùy chọn cho tôn giáo từ dữ liệu hoặc cứng cố định */}
                 </select>
               </div>
@@ -178,14 +180,13 @@ const AddStudent = () => {
                   name="tinh"
                   value={formData.tinh}
                   onChange={handleChange}
-                  className="border border-gray-300 rounded px-3 py-2 w-full"
+                  className="border border-gray-300 rounded px-3 py-2 w-full bg-white"
                 >
                   <option value="">Chọn tỉnh/thành phố</option>
+                  <option value="Hà nội">Hà nội</option>
                   {/* Thêm các tùy chọn cho tỉnh/thành phố từ dữ liệu hoặc cứng cố định */}
                 </select>
               </div>
-
-              {/* Quận/Huyện */}
               <div>
                 <label htmlFor="huyen">Quận/Huyện:</label>
                 <select
@@ -193,14 +194,13 @@ const AddStudent = () => {
                   name="huyen"
                   value={formData.huyen}
                   onChange={handleChange}
-                  className="border border-gray-300 rounded px-3 py-2 w-full"
+                  className="border border-gray-300 rounded px-3 py-2 w-full bg-white"
                 >
                   <option value="">Chọn quận/huyện</option>
+                  <option value="Cầu Giấy">Cầu Giấy</option>
                   {/* Tùy chọn cho quận/huyện sẽ tự động cập nhật dựa trên tỉnh/thành phố đã chọn */}
                 </select>
               </div>
-
-              {/* Xã/Phường */}
               <div>
                 <label htmlFor="xa">Xã/Phường:</label>
                 <select
@@ -208,76 +208,68 @@ const AddStudent = () => {
                   name="xa"
                   value={formData.xa}
                   onChange={handleChange}
-                  className="border border-gray-300 rounded px-3 py-2 w-full"
+                  className="border border-gray-300 rounded px-3 py-2 w-full bg-white"
                 >
                   <option value="">Chọn xã/phường</option>
+                  <option value="Phường 0">Phường 0</option>
                   {/* Tùy chọn cho xã/phường sẽ tự động cập nhật dựa trên quận/huyện đã chọn */}
                 </select>
               </div>
-
-              {/* Nơi sinh */}
               <div>
-                <label htmlFor="noisinh">Nơi sinh:</label>
-                <select
-                  id="noisinh"
-                  name="noisinh"
-                  value={formData.noisinh}
-                  onChange={handleChange}
-                  className="border border-gray-300 rounded px-3 py-2 w-full"
-                >
-                  <option value="">Chọn nơi sinh</option>
-                  {/* Tùy chọn cho nơi sinh từ dữ liệu hoặc cứng cố định */}
-                </select>
-              </div>
-
-              {/* Địa chỉ thường trú */}
-              <div>
-                <label htmlFor="thuongtru">Địa chỉ thường trú:</label>
+                <label htmlFor="noiSinh">Nơi sinh:</label>
                 <input
                   type="text"
-                  id="thuongtru"
-                  name="thuongtru"
-                  value={formData.thuongtru}
+                  id="noiSinh"
+                  name="noiSinh"
+                  value={formData.noiSinh}
                   onChange={handleChange}
-                  className="border border-gray-300 rounded px-3 py-2 w-full"
+                  className="border border-gray-300 rounded px-3 py-2 w-full bg-white"
                 />
               </div>
-
-              {/* Địa chỉ tạm trú */}
               <div>
-                <label htmlFor="tamtru">Địa chỉ tạm trú:</label>
+                <label htmlFor="thuongTru">Địa chỉ thường trú:</label>
                 <input
                   type="text"
-                  id="tamtru"
-                  name="tamtru"
-                  value={formData.tamtru}
+                  id="thuongTru"
+                  name="thuongTru"
+                  value={formData.thuongTru}
                   onChange={handleChange}
-                  className="border border-gray-300 rounded px-3 py-2 w-full"
+                  className="border border-gray-300 rounded px-3 py-2 w-full bg-white"
                 />
               </div>
-
-              {/* Dân tộc */}
               <div>
-                <label htmlFor="dantoc">Dân tộc:</label>
-                <select
-                  id="dantoc"
-                  name="dantoc"
-                  value={formData.dantoc}
+                <label htmlFor="tamTru">Địa chỉ tạm trú:</label>
+                <input
+                  type="text"
+                  id="tamTru"
+                  name="tamTru"
+                  value={formData.tamTru}
                   onChange={handleChange}
-                  className="border border-gray-300 rounded px-3 py-2 w-full"
+                  className="border border-gray-300 rounded px-3 py-2 w-full bg-white"
+                />
+              </div>
+              <div>
+                <label htmlFor="danToc">Dân tộc:</label>
+                <select
+                  id="danToc"
+                  name="danToc"
+                  value={formData.danToc}
+                  onChange={handleChange}
+                  className="border border-gray-300 rounded px-3 py-2 w-full bg-white"
                 >
                   <option value="">Chọn dân tộc</option>
+                  <option value="kinh">Kinh</option>
                 </select>
               </div>
+              <button
+                onClick={handleSubmit}
+                type="submit"
+                className="bg-blue-500 text-white px-4 py-2 rounded mt-3"
+              >
+                Thêm mới
+              </button>
             </div>
           </div>
-
-          <button
-            type="submit"
-            className="bg-blue-500 text-white px-4 py-2 rounded"
-          >
-            Thêm mới
-          </button>
         </div>
       </div>
     </div>
