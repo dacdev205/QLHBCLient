@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   const [students, setStudents] = useState([]);
@@ -164,18 +165,22 @@ const Home = () => {
             </button>
           </div>
         </div>
+        <div className="flex justify-end">
+          <button className="btn m-2 bg-teal-900 text-white hover:bg-teal-700">
+            Nhập/Xuất
+          </button>
+          <Link
+            to="/addStudent"
+            className="btn m-2 bg-teal-900  text-white hover:bg-teal-700"
+          >
+            Thêm mới
+          </Link>
+
+          <button className="btn m-2 bg-teal-900  text-white hover:bg-teal-700">
+            Xoá
+          </button>
+        </div>
         <div className="bg-white text-teal-800 p-4 rounded-lg shadow-md overflow-auto">
-          <div className="flex justify-end">
-            <button className="btn m-2 bg-teal-900 text-white hover:bg-teal-700">
-              Nhập/Xuất
-            </button>
-            <button className="btn m-2 bg-teal-900  text-white hover:bg-teal-700">
-              Thêm mới
-            </button>
-            <button className="btn m-2 bg-teal-900  text-white hover:bg-teal-700">
-              Xoá
-            </button>
-          </div>
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-teal-600 text-white">
               <tr>
