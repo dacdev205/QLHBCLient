@@ -9,9 +9,9 @@ const Navbar = () => {
     setIsOpen(!isOpen);
   };
   return (
-    <div>
+    <div className="">
       {/* Hamburger Icon for mobile */}
-      <div className="md:hidden fixed top-0 right-0 p-4">
+      <div className="md:hidden fixed sm:hidden top-0 right-0 p-4">
         <button onClick={toggleNavbar}>
           <FaBars />
         </button>
