@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import { FaBars } from "react-icons/fa";
-import { Link } from "react-router-dom";
-
+import { Link, Outlet } from "react-router-dom";
+import { RxHamburgerMenu } from "react-icons/rx";
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -9,54 +8,49 @@ const Navbar = () => {
     setIsOpen(!isOpen);
   };
   return (
-    <div className="">
-      {/* Hamburger Icon for mobile */}
-      <div className="md:hidden fixed sm:hidden top-0 right-0 p-4">
-        <button onClick={toggleNavbar}>
-          <FaBars />
-        </button>
-      </div>
-
-      {/* Sidebar for mobile */}
-      <div
-        className={`${
-          isOpen ? "block" : "hidden"
-        } md:block w-64 h-full bg-teal-800 text-white fixed top-0 left-0 z-50`}
-      >
-        <div className="p-4 text-lg font-semibold border-b border-gray-700">
-          Học bạ điện tử
-        </div>
-        <nav className="flex-grow p-4">
-          <ul>
-            <li className="mb-3">
-              <Link
-                to="/"
-                className="block py-2 px-4 rounded hover:bg-teal-700"
+    <div>
+      <div>
+        <div className="drawer sm:drawer-open">
+          <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
+          <div className="drawer-content flex flex-col sm:items-start sm:justify-start bg-white">
+            {/* Page content here */}
+            <div className="flex items-center justify-between mx-4">
+              <label
+                htmlFor="my-drawer-2"
+                className="btn bg-teal-800 text-white hover:bg-teal-700 btn-primary drawer-button lg:hidden"
               >
-                Hồ sơ học sinh
-              </Link>
-            </li>
-
-            {/* Add more menu items here */}
-          </ul>
-        </nav>
-      </div>
-
-      {/* Sidebar for desktop */}
-      <div className="hidden md:block w-64 h-full bg-teal-800 text-white">
-        <div className="p-4 text-lg font-semibold border-b border-gray-700">
-          Học bạ điện tử
+                <RxHamburgerMenu />
+              </label>
+              <button className="btn btn-primary rounded-full items-center gap-2 px-6 bg-green text-white sm:hidden">
+                Log out
+              </button>
+            </div>
+            <div className="mt-5 md:mt-2 mx-4">
+              <Outlet />
+            </div>
+          </div>
+          <div className="drawer-side ">
+            <label
+              htmlFor="my-drawer-2"
+              aria-label="close sidebar"
+              className="drawer-overlay"
+            ></label>
+            <ul className="menu p-4 w-80 min-h-full text-white bg-teal-800 ">
+              {/* Sidebar content here */}
+              <li className="font-bold">
+                <Link to="/" className="flex justify-start mb-3 active-link">
+                  Hệ thống quản lý học bạ
+                </Link>
+              </li>
+              <hr />
+              <li>
+                <Link className="" to="/">
+                  Hồ sơ học sinh
+                </Link>
+              </li>
+            </ul>
+          </div>
         </div>
-        <nav className="flex-grow p-4">
-          <ul>
-            <li className="mb-3">
-              <a href="#" className="block py-2 px-4 rounded hover:bg-teal-700">
-                Hồ sơ học sinh
-              </a>
-            </li>
-            {/* Add more menu items here */}
-          </ul>
-        </nav>
       </div>
     </div>
   );
