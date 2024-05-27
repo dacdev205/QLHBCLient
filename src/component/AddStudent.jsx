@@ -38,7 +38,7 @@ const AddStudent = () => {
     console.log(formData);
     setFormData(initialFormData);
     axios
-      .post("http://192.168.234.154:8080/api/hocsinh/add", formData)
+      .post("http://localhost:8080/api/hocsinh/add", formData)
       .then((response) => {
         console.log(response.data);
       });

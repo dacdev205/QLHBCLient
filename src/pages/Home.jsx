@@ -1,7 +1,11 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-
+import Box from "@mui/material/Box";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
 const Home = () => {
   const [students, setStudents] = useState([]);
   const [filteredStudents, setFilteredStudents] = useState([]);
@@ -15,12 +19,12 @@ const Home = () => {
     dantoc: "",
     lop: "",
     mahs: "",
-    trangthai: "",
+    trangThai: "",
   });
 
   useEffect(() => {
     axios
-      .get("http://192.168.234.154:8080/api/hocsinh")
+      .get("http://localhost:8080/api/hocsinh")
       .then((response) => {
         setStudents(response.data);
         setFilteredStudents(response.data);
@@ -48,6 +52,7 @@ const Home = () => {
 
   const handleSearchChange = (e) => {
     const { name, value } = e.target;
+    console.log(e.target.value);
     setSearchParams({ ...searchParams, [name]: value });
   };
 
@@ -77,9 +82,7 @@ const Home = () => {
   };
   const handleDeleteSelectedStudents = () => {
     axios
-      .delete(
-        `http://192.168.234.154:8080/api/hocsinh/${selectedStudents.join(",")}`
-      )
+      .delete(`http://localhost:8080/api/hocsinh/${selectedStudents.join(",")}`)
       .then(() => {
         setFilteredStudents((prevState) =>
           prevState.filter((student) => !selectedStudents.includes(student.id))
@@ -91,9 +94,8 @@ const Home = () => {
       );
   };
   return (
-    <div className="min-h-screen w-full bg-white">
-      <div className="container mx-auto py-8">
-        {/* Search Bar */}
+    <div>
+      <div className="w-full md:w-full px-4 mr-8">
         <div className=" text-white p-4 rounded-lg shadow-md mb-6">
           <h1 className="text-white bg-teal-800 p-2 mb-3 rounded-sm">
             Thông tin tìm kiếm
@@ -144,7 +146,7 @@ const Home = () => {
                 className="p-2 rounded bg-white text-teal-800 border-solid border-2"
               />
               <select
-                name="trangthai"
+                name="trangThai"
                 value={searchParams.trangthai}
                 onChange={handleSearchChange}
                 className="p-2 rounded bg-white text-teal-800 border-solid border-2"
@@ -153,6 +155,25 @@ const Home = () => {
                 <option value="true">Đang Học</option>
                 <option value="false">Không Học</option>
               </select>
+              <Box sx={{ minWidth: 120 }}>
+                <FormControl fullWidth size="small">
+                  <InputLabel id="demo-simple-select-label">
+                    Trạng thái
+                  </InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={searchParams.trangThai}
+                    label="Trạng thái"
+                    name="trangThai"
+                    onChange={handleSearchChange}
+                  >
+                    <MenuItem value="">Trạng thái</MenuItem>
+                    <MenuItem value="true">Đang Học</MenuItem>
+                    <MenuItem value="false">Không Học</MenuItem>
+                  </Select>
+                </FormControl>
+              </Box>
             </div>
           )}
           <div className="flex justify-center mt-4">
