@@ -155,7 +155,7 @@ const Home = () => {
                 <option value="true">Đang Học</option>
                 <option value="false">Không Học</option>
               </select>
-              <Box sx={{ minWidth: 120 }}>
+              <Box sx={{ minWidth: 1200 }}>
                 <FormControl fullWidth size="small">
                   <InputLabel id="demo-simple-select-label">
                     Trạng thái
