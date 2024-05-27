@@ -71,8 +71,8 @@ const Home = () => {
             student.dantoc === searchParams.dantoc) &&
           (searchParams.lop === "" || student.tenlop === searchParams.lop) &&
           (searchParams.mahs === "" || student.mahs === searchParams.mahs) &&
-          (searchParams.trangthai === "" ||
-            student.trangthai.toString() === searchParams.trangthai)
+          (searchParams.trangThai === "" ||
+            student.trangThai.toString() === searchParams.trangThai)
         );
       })
     );
@@ -93,6 +93,7 @@ const Home = () => {
         console.error("Error deleting selected students:", error)
       );
   };
+  // tien code ne
   return (
     <div>
       <div className="w-full md:w-full px-4 mr-8">
@@ -147,7 +148,7 @@ const Home = () => {
               />
               <select
                 name="trangThai"
-                value={searchParams.trangthai}
+                value={searchParams.trangThai}
                 onChange={handleSearchChange}
                 className="p-2 rounded bg-white text-teal-800 border-solid border-2"
               >
