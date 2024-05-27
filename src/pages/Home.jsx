@@ -24,7 +24,7 @@ const Home = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8080/api/hocsinh")
+      .get("http://192.168.234.154:8080/api/hocsinh")
       .then((response) => {
         setStudents(response.data);
         setFilteredStudents(response.data);
@@ -71,8 +71,8 @@ const Home = () => {
             student.dantoc === searchParams.dantoc) &&
           (searchParams.lop === "" || student.tenlop === searchParams.lop) &&
           (searchParams.mahs === "" || student.mahs === searchParams.mahs) &&
-          (searchParams.trangthai === "" ||
-            student.trangthai.toString() === searchParams.trangthai)
+          (searchParams.trangThai === "" ||
+            student.trangThai.toString() === searchParams.trangThai)
         );
       })
     );
@@ -145,17 +145,8 @@ const Home = () => {
                 onChange={handleSearchChange}
                 className="p-2 rounded bg-white text-teal-800 border-solid border-2"
               />
-              <select
-                name="trangThai"
-                value={searchParams.trangthai}
-                onChange={handleSearchChange}
-                className="p-2 rounded bg-white text-teal-800 border-solid border-2"
-              >
-                <option value="">Trạng thái</option>
-                <option value="true">Đang Học</option>
-                <option value="false">Không Học</option>
-              </select>
-              <Box sx={{ minWidth: 1200 }}>
+
+              <Box sx={{ minWidth: 120 }}>
                 <FormControl fullWidth size="small">
                   <InputLabel id="demo-simple-select-label">
                     Trạng thái
