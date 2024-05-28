@@ -10,14 +10,18 @@ import Divider from "@mui/material/Divider";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import DeleteIcon from "@mui/icons-material/Delete";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
+import { LINK_API } from "../globalAPI/linkAPI";
+
 const Table = () => {
   const [students, setStudents] = useState([]);
   const [filteredStudents, setFilteredStudents] = useState([]);
   const [allChecked, setAllChecked] = useState(false);
   const [selectedStudents, setSelectedStudents] = useState([]);
+  const [anchorEls, setAnchorEls] = useState({});
+
   useEffect(() => {
     axios
-      .get("http://192.168.234.154:8080/api/hocsinh")
+      .get(`${LINK_API}`)
       .then((response) => {
         setStudents(response.data);
         setFilteredStudents(response.data);
@@ -45,9 +49,7 @@ const Table = () => {
 
   const handleDeleteSelectedStudents = () => {
     axios
-      .delete(
-        `http://192.168.234.154:8080/api/hocsinh/${selectedStudents.join(",")}`
-      )
+      .delete(`${LINK_API}/${selectedStudents.join(",")}`)
       .then(() => {
         setFilteredStudents((prevState) =>
           prevState.filter((student) => !selectedStudents.includes(student.id))
@@ -58,32 +60,33 @@ const Table = () => {
         console.error("Error deleting selected students:", error)
       );
   };
-  const [anchorEl, setAnchorEl] = useState(null);
-  const open = Boolean(anchorEl);
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
+
+  const handleClick = (event, id) => {
+    setAnchorEls((prevState) => ({ ...prevState, [id]: event.currentTarget }));
   };
-  const handleClose = () => {
-    setAnchorEl(null);
+
+  const handleClose = (id) => {
+    setAnchorEls((prevState) => ({ ...prevState, [id]: null }));
   };
+
   return (
     <div>
       <div className="w-full md:w-full px-4 mr-8">
-        <Searchbar></Searchbar>
+        <Searchbar />
         <div className="flex justify-end">
           <button className="btn m-2 bg-teal-900 text-white hover:bg-teal-700">
             Nhập/Xuất
           </button>
           <Link
             to="/addStudent"
-            className="btn m-2 bg-teal-900  text-white hover:bg-teal-700"
+            className="btn m-2 bg-teal-900 text-white hover:bg-teal-700"
           >
             Thêm mới
           </Link>
 
           <button
             onClick={handleDeleteSelectedStudents}
-            className="btn m-2 bg-teal-900  text-white hover:bg-teal-700"
+            className="btn m-2 bg-teal-900 text-white hover:bg-teal-700"
           >
             Xoá
           </button>
@@ -170,10 +173,14 @@ const Table = () => {
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                       <Button
                         id="fade-button"
-                        aria-controls={open ? "fade-menu" : undefined}
+                        aria-controls={
+                          anchorEls[student.id] ? "fade-menu" : undefined
+                        }
                         aria-haspopup="true"
-                        aria-expanded={open ? "true" : undefined}
-                        onClick={handleClick}
+                        aria-expanded={
+                          anchorEls[student.id] ? "true" : undefined
+                        }
+                        onClick={(event) => handleClick(event, student.id)}
                       >
                         {student.hoTen}
                       </Button>
@@ -182,24 +189,28 @@ const Table = () => {
                         MenuListProps={{
                           "aria-labelledby": "fade-button",
                         }}
-                        anchorEl={anchorEl}
-                        open={open}
-                        onClose={handleClose}
+                        anchorEl={anchorEls[student.id]}
+                        open={Boolean(anchorEls[student.id])}
+                        onClose={() => handleClose(student.id)}
                         TransitionComponent={Fade}
                       >
-                        <MenuItem onClick={handleClose}>
+                        <MenuItem onClick={() => handleClose(student.id)}>
                           <VisibilityIcon className="mr-2" />
-                          Xem hồ sơ
+                          <Link to={`/student-detail/${student.id}`}>
+                            Xem hồ sơ
+                          </Link>
                         </MenuItem>
                         <Divider />
 
-                        <MenuItem onClick={handleClose}>
+                        <MenuItem onClick={() => handleClose(student.id)}>
                           <BorderColorIcon className="mr-2" />
-                          Sửa hồ sơ
+                          <Link to={`/student-edit/${student.id}`}>
+                            Sửa hồ sơ
+                          </Link>
                         </MenuItem>
                         <Divider />
 
-                        <MenuItem onClick={handleClose}>
+                        <MenuItem onClick={() => handleClose(student.id)}>
                           <DeleteIcon className="mr-2" />
                           Xoá hồ sơ
                         </MenuItem>
