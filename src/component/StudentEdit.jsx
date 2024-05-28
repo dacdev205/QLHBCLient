@@ -80,30 +80,18 @@ const StudentEdit = () => {
           <div className="col-span-1 md:col-span-1 lg:col-span-2">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mr-10">
               <div>
-                <TextField
-                  label="Lớp"
-                  name="lop"
-                  value={student.lop || ""}
+              <TextField
+                  label="Họ và tên"
+                  name="hoTen"
+                  value={student.hoTen || ""}
                   onChange={handleChange}
                   fullWidth
                   margin="normal"
                 />
-                <FormControl fullWidth margin="normal">
-                  <InputLabel>Trạng thái</InputLabel>
-                  <Select
-                    name="trangThai"
-                    label="Trạng thái"
-                    value={student.trangThai || ""}
-                    onChange={handleChange}
-                  >
-                    <MenuItem value={true}>Đang học</MenuItem>
-                    <MenuItem value={false}>Không Học</MenuItem>
-                  </Select>
-                </FormControl>
                 <TextField
-                  label="Họ và tên"
-                  name="hoTen"
-                  value={student.hoTen || ""}
+                  label="Lớp"
+                  name="lop"
+                  value={student.lop || ""}
                   onChange={handleChange}
                   fullWidth
                   margin="normal"
@@ -121,40 +109,6 @@ const StudentEdit = () => {
                   </Select>
                 </FormControl>
                 <TextField
-                  label="Tỉnh/Thành"
-                  name="tinh"
-                  value={student.tinh || ""}
-                  onChange={handleChange}
-                  fullWidth
-                  margin="normal"
-                />
-                <TextField
-                  label="Xã/Phường"
-                  name="xa"
-                  value={student.xa || ""}
-                  onChange={handleChange}
-                  fullWidth
-                  margin="normal"
-                />
-                <TextField
-                  label="Ngày vào trường"
-                  type="date"
-                  name="nhapHoc"
-                  value={
-                    student.nhapHoc
-                      ? new Date(student.nhapHoc).toISOString().substr(0, 10)
-                      : ""
-                  }
-                  onChange={handleChange}
-                  fullWidth
-                  margin="normal"
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                />
-              </div>
-              <div>
-                <TextField
                   label="Mã học sinh"
                   name="maHs"
                   value={student.maHs || ""}
@@ -162,6 +116,19 @@ const StudentEdit = () => {
                   fullWidth
                   margin="normal"
                 />
+                
+                <FormControl fullWidth margin="normal">
+                  <InputLabel>Trạng thái</InputLabel>
+                  <Select
+                    name="trangThai"
+                    label="Trạng thái"
+                    value={student.trangThai}
+                    onChange={handleChange}
+                  >
+                    <MenuItem value={true}>Đang học</MenuItem>
+                    <MenuItem value={false}>Không Học</MenuItem>
+                  </Select>
+                </FormControl>
                 <TextField
                   label="Ngày sinh"
                   type="date"
@@ -179,6 +146,42 @@ const StudentEdit = () => {
                   }}
                 />
                 <TextField
+                  label="Ngày vào trường"
+                  type="date"
+                  name="nhapHoc"
+                  value={
+                    student.nhapHoc
+                      ? new Date(student.nhapHoc).toISOString().substr(0, 10)
+                      : ""
+                  }
+                  onChange={handleChange}
+                  fullWidth
+                  margin="normal"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
+              
+              </div>
+              <div>
+              <TextField
+                  label="Nơi sinh"
+                  name="noiSinh"
+                  value={student.noiSinh || ""}
+                  onChange={handleChange}
+                  fullWidth
+                  margin="normal"
+                />
+              <TextField
+                  label="Thành Phố/Tỉnh"
+                  name="tinh"
+                  value={student.tinh || ""}
+                  onChange={handleChange}
+                  fullWidth
+                  margin="normal"
+                />
+                
+                <TextField
                   label="Quận/Huyện"
                   name="huyen"
                   value={student.huyen || ""}
@@ -187,17 +190,9 @@ const StudentEdit = () => {
                   margin="normal"
                 />
                 <TextField
-                  label="Địa chỉ tạm trú"
-                  name="tamTru"
-                  value={student.tamTru || ""}
-                  onChange={handleChange}
-                  fullWidth
-                  margin="normal"
-                />
-                <TextField
-                  label="Nơi sinh"
-                  name="noiSinh"
-                  value={student.noiSinh || ""}
+                  label="Phường/Xã"
+                  name="xa"
+                  value={student.xa || ""}
                   onChange={handleChange}
                   fullWidth
                   margin="normal"
@@ -210,13 +205,22 @@ const StudentEdit = () => {
                   fullWidth
                   margin="normal"
                 />
+                <TextField
+                  label="Địa chỉ tạm trú"
+                  name="tamTru"
+                  value={student.tamTru || ""}
+                  onChange={handleChange}
+                  fullWidth
+                  margin="normal"
+                />
+                <div className="flex justify-end">
+                  <Button type="submit" variant="contained" color="primary">
+                    Lưu thay đổi
+                  </Button>
+                </div>
               </div>
             </div>
-            <div className="flex justify-end">
-              <Button type="submit" variant="contained" color="primary">
-                Lưu thay đổi
-              </Button>
-            </div>
+            
           </div>
         </div>
       </form>
