@@ -114,6 +114,7 @@ const AddStudent = () => {
         <div className="col-span-1 md:col-span-1 lg:col-span-2">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mr-10">
             <div>
+ 
               <div className="mb-2">
                 <TextField
                   className="w-full"
@@ -121,7 +122,7 @@ const AddStudent = () => {
                   type="text"
                   id="outlined-basic"
                   name="hoTen"
-                  label="Họ tên"
+                  label="Họ và tên"
                   variant="outlined"
                   value={formData.hoTen}
                   onChange={handleChange}
@@ -159,6 +160,7 @@ const AddStudent = () => {
                 </FormControl>
               </Box>
               <div className="mb-2">
+                
                 <TextField
                   className="w-full"
                   size="small"

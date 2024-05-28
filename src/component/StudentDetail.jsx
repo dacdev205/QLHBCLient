@@ -31,37 +31,47 @@ const StudentDetail = () => {
         <div className="col-span-1 md:col-span-1 lg:col-span-2">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mr-10">
             <div>
+            <div className="mb-4 ">Họ và tên: {student.hoTen}</div>
               <div className="mb-4">Lớp: {student.lop}</div>
-              <div className="mb-4 ">
-                Trạng thái: {student.trangThai ? "Đang học" : "Không Học"}
-              </div>
-              <div className="mb-4 ">Họ và tên: {student.hoTen}</div>
-
               <div className="mb-4">
                 Giới tính: {student.gioiTinh ? "Nam" : "Nữ"}
               </div>
-              <div className="mb-4">Tỉnh/Thành:{student.tinh}</div>
-              <div className="mb-4">Xã/Phường: {student.xa}</div>
-              <div className="mb-4">
-                Ngày vào trường:{" "}
-                {student.nhapHoc
-                  ? new Date(student.nhapHoc).toLocaleDateString()
-                  : "N/A"}
-              </div>
-              <div className="mb-4">Nơi sinh: {student.noiSinh}</div>
-              <div className="mb-4">
-                Địa chỉ thường trú: {student.thuongTru}
-              </div>
-            </div>
-            <div>
               <div className="mb-4">Mã học sinh: {student.maHs}</div>
+              <div className="mb-4 ">
+                Trạng thái: {student.trangThai ? "Đang học" : "Không Học"}
+              </div> 
               <div className="mb-4">
                 Ngày sinh:{" "}
                 {student.ngaySinh
-                  ? new Date(student.ngaySinh).toLocaleDateString()
+                  ? new Date(student.ngaySinh).toLocaleDateString("en-GB", {
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "numeric"
+                    })
                   : "N/A"}
               </div>
+              
+              <div className="mb-4">
+                Ngày vào trường:{" "}
+                {student.nhapHoc
+                  ? new Date(student.nhapHoc).toLocaleDateString("en-GB", {
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "numeric"
+                    })
+                  : "N/A"}
+              </div>
+              <div className="mb-4">Nơi sinh: {student.noiSinh}</div>
+              
+            </div>
+
+            <div>
+              <div className="mb-4">Thành Phố/Tỉnh: {student.tinh}</div>
               <div className="mb-4">Quận/Huyện: {student.huyen}</div>
+              <div className="mb-4">Phường/Xã: {student.xa}</div>
+              <div className="mb-4">
+                Địa chỉ thường trú: {student.thuongTru}
+              </div>
               <div className="mb-4">Địa chỉ tạm trú: {student.tamTru}</div>
             </div>
           </div>

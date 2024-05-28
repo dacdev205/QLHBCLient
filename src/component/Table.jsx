@@ -218,7 +218,11 @@ const Table = () => {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm">
                       {student.ngaySinh
-                        ? new Date(student.ngaySinh).toLocaleDateString()
+                        ? new Date(student.ngaySinh).toLocaleDateString("en-GB", {
+                            day: "2-digit",
+                            month: "2-digit",
+                            year: "numeric"
+                          })
                         : "N/A"}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm">
