@@ -2,6 +2,11 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Searchbar from "./Searchbar";
+import Button from "@mui/material/Button";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import Fade from "@mui/material/Fade";
+import Divider from "@mui/material/Divider";
 
 const Table = () => {
   const [students, setStudents] = useState([]);
@@ -51,6 +56,14 @@ const Table = () => {
       .catch((error) =>
         console.error("Error deleting selected students:", error)
       );
+  };
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
   };
   return (
     <div>
@@ -154,7 +167,33 @@ const Table = () => {
                       />
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                      {student.hoTen}
+                      <Button
+                        id="fade-button"
+                        aria-controls={open ? "fade-menu" : undefined}
+                        aria-haspopup="true"
+                        aria-expanded={open ? "true" : undefined}
+                        onClick={handleClick}
+                      >
+                        {student.hoTen}
+                      </Button>
+                      <Menu
+                        id="fade-menu"
+                        MenuListProps={{
+                          "aria-labelledby": "fade-button",
+                        }}
+                        anchorEl={anchorEl}
+                        open={open}
+                        onClose={handleClose}
+                        TransitionComponent={Fade}
+                      >
+                        <MenuItem onClick={handleClose}>Xem hồ sơ</MenuItem>
+                        <Divider />
+
+                        <MenuItem onClick={handleClose}>Sửa hồ sơ</MenuItem>
+                        <Divider />
+
+                        <MenuItem onClick={handleClose}>Xoá hồ sơ</MenuItem>
+                      </Menu>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm">
                       {student.ngaySinh
