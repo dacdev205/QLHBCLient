@@ -7,13 +7,14 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Fade from "@mui/material/Fade";
 import Divider from "@mui/material/Divider";
-
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import DeleteIcon from "@mui/icons-material/Delete";
+import BorderColorIcon from "@mui/icons-material/BorderColor";
 const Table = () => {
   const [students, setStudents] = useState([]);
   const [filteredStudents, setFilteredStudents] = useState([]);
   const [allChecked, setAllChecked] = useState(false);
   const [selectedStudents, setSelectedStudents] = useState([]);
-
   useEffect(() => {
     axios
       .get("http://192.168.234.154:8080/api/hocsinh")
@@ -186,13 +187,22 @@ const Table = () => {
                         onClose={handleClose}
                         TransitionComponent={Fade}
                       >
-                        <MenuItem onClick={handleClose}>Xem hồ sơ</MenuItem>
+                        <MenuItem onClick={handleClose}>
+                          <VisibilityIcon className="mr-2" />
+                          Xem hồ sơ
+                        </MenuItem>
                         <Divider />
 
-                        <MenuItem onClick={handleClose}>Sửa hồ sơ</MenuItem>
+                        <MenuItem onClick={handleClose}>
+                          <BorderColorIcon className="mr-2" />
+                          Sửa hồ sơ
+                        </MenuItem>
                         <Divider />
 
-                        <MenuItem onClick={handleClose}>Xoá hồ sơ</MenuItem>
+                        <MenuItem onClick={handleClose}>
+                          <DeleteIcon className="mr-2" />
+                          Xoá hồ sơ
+                        </MenuItem>
                       </Menu>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm">
