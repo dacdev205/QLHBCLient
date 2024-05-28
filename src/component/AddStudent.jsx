@@ -1,14 +1,25 @@
 import axios from "axios";
 import React, { useState } from "react";
+import Box from "@mui/material/Box";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+import { TextField } from "@mui/material";
 
+import { useEffect } from "react";
 const AddStudent = () => {
+  const [ethnic, setEthnic] = useState([]);
+  const [city, setCity] = useState([]);
+  const [district, setDistrict] = useState([]);
+  const [isCitySelected, setIsCitySelected] = useState(false);
   const initialFormData = {
     hoTen: "",
     ngaySinh: "",
     gioiTinh: false,
     maDinhDanh: "",
     email: "",
-    hinhAnh: "",
+    hinhAnh: null,
     tinh: "",
     huyen: "",
     xa: "",
@@ -22,23 +33,55 @@ const AddStudent = () => {
     trangThai: true,
     nhapHoc: "",
   };
+  useEffect(() => {
+    function fetchAPIethnic() {
+      fetch("https://api.nosomovo.xyz/ethnic/getalllist")
+        .then((res) => res.json())
+        .then((data) => {
+          setEthnic(data);
+        });
+    }
+    fetchAPIethnic();
+  }, []);
 
+  useEffect(() => {
+    function fetchAPICity() {
+      fetch("https://api.nosomovo.xyz/province/getalllist/193")
+        .then((res) => res.json())
+        .then((data) => {
+          setCity(data);
+        });
+    }
+    fetchAPICity();
+  }, []);
   const [formData, setFormData] = useState(initialFormData);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
+  const handleChange = async (e) => {
+    const { name, value, type, files } = e.target;
     setFormData({
       ...formData,
-      [name]: value,
+      [name]: type === "file" ? files[0] : value,
     });
+    if (name === "tinh") {
+      const cityId = value;
+      try {
+        const res = await fetch(
+          `https://api.nosomovo.xyz/district/getalllist/${cityId}`
+        );
+        const data = await res.json();
+        setDistrict(data);
+        setIsCitySelected(true);
+      } catch (error) {
+        console.error("Error fetching districts", error);
+      }
+    }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formData);
     setFormData(initialFormData);
     axios
-      .post("http://localhost:8080/api/hocsinh/add", formData)
+      .post("http://192.168.234.154:8080/api/hocsinh/add", formData)
       .then((response) => {
         console.log(response.data);
       });
@@ -47,38 +90,44 @@ const AddStudent = () => {
   return (
     <div className="bg-white w-full min-h-screen text-black">
       <h1>Thông tin chung</h1>
-      <div className="container mx-auto py-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 min-h-screen bg-white gap-4">
-        <div>
+      <div className="container mx-auto py-6 grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 min-h-screen bg-white gap-4">
+        {/* <div>
           <img
             className="w-64 h-64 object-cover"
-            src="/istockphoto-1300845620-612x612.jpg"
+            src={
+              formData.hinhAnh
+                ? URL.createObjectURL(formData.hinhAnh)
+                : "/istockphoto-1300845620-612x612.jpg"
+            }
             alt=""
           />
-          <label htmlFor="hinhAnh"></label>
+          <label htmlFor="hinhAnh">Chọn ảnh:</label>
           <input
             type="file"
             id="hinhAnh"
             name="hinhAnh"
-            value={formData.hinhAnh}
-            onChange={handleChange}
+            onChange={(e) => handleChange(e)}
             className="border border-gray-300 rounded px-3 py-2 bg-white"
           />
-        </div>
+        </div> */}
+
         <div className="col-span-1 md:col-span-1 lg:col-span-2">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mr-10">
             <div>
-              <div>
-                <label htmlFor="hoTen">Họ tên:</label>
-                <input
+              <div className="mb-2">
+                <TextField
+                  className="w-full"
+                  size="small"
                   type="text"
-                  id="hoTen"
+                  id="outlined-basic"
                   name="hoTen"
+                  label="Họ tên"
+                  variant="outlined"
                   value={formData.hoTen}
                   onChange={handleChange}
-                  className="border border-gray-300 rounded px-3 py-2 w-full bg-white"
                 />
               </div>
-              <div>
+              <div className="mb-2 ">
                 <label htmlFor="ngaySinh">Ngày sinh:</label>
                 <input
                   type="date"
@@ -89,61 +138,77 @@ const AddStudent = () => {
                   className="border border-gray-300 rounded px-3 py-2 w-full bg-white"
                 />
               </div>
-              <div>
-                <label htmlFor="gioiTinh">Giới tính:</label>
-                <select
-                  id="gioiTinh"
-                  name="gioiTinh"
-                  value={formData.gioiTinh}
-                  onChange={handleChange}
-                  className="border border-gray-300 rounded px-3 py-2 w-full bg-white"
-                >
-                  <option value={true}>Nam</option>
-                  <option value={false}>Nữ</option>
-                </select>
-              </div>
-              <div>
-                <label htmlFor="maDinhDanh">Mã định danh:</label>
-                <input
+
+              <Box sx={{ minWidth: 120 }} className="mb-2">
+                <FormControl fullWidth size="small">
+                  <InputLabel id="demo-simple-select-label" className="w-full">
+                    Giới tính
+                  </InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    label="Giới tính"
+                    value={formData.gioiTinh}
+                    onChange={handleChange}
+                    name="gioiTinh"
+                  >
+                    <MenuItem value="null">Giới tính</MenuItem>
+                    <MenuItem value="true">Nam</MenuItem>
+                    <MenuItem value="false">Nữ</MenuItem>
+                  </Select>
+                </FormControl>
+              </Box>
+              <div className="mb-2">
+                <TextField
+                  className="w-full"
+                  size="small"
                   type="text"
-                  id="maDinhDanh"
+                  id="outlined-basic"
                   name="maDinhDanh"
+                  label="Mã Định Danh"
                   value={formData.maDinhDanh}
                   onChange={handleChange}
-                  className="border border-gray-300 rounded px-3 py-2 w-full bg-white"
+                  variant="outlined"
                 />
               </div>
-              <div>
-                <label htmlFor="email">Email:</label>
-                <input
-                  type="email"
-                  id="email"
+              <div className="mb-2">
+                <TextField
+                  className="w-full"
+                  size="small"
+                  type="text"
+                  id="outlined-basic"
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  className="border border-gray-300 rounded px-3 py-2 w-full bg-white"
+                  label="Email"
+                  variant="outlined"
                 />
               </div>
-              <div>
-                <label htmlFor="maHs">Mã học sinh:</label>
-                <input
+              <div className="mb-2">
+                <TextField
+                  className="w-full"
+                  size="small"
                   type="text"
-                  id="maHs"
+                  id="outlined-basic"
                   name="maHs"
                   value={formData.maHs}
                   onChange={handleChange}
-                  className="border border-gray-300 rounded px-3 py-2 w-full bg-white"
+                  label="Mã học sinh"
+                  variant="outlined"
                 />
               </div>
-              <div>
-                <label htmlFor="lop">Tên lớp:</label>
-                <input
+
+              <div className="mb-2">
+                <TextField
+                  className="w-full"
+                  size="small"
                   type="text"
-                  id="lop"
+                  id="outlined-basic"
                   name="lop"
                   value={formData.lop}
                   onChange={handleChange}
-                  className="border border-gray-300 rounded px-3 py-2 w-full bg-white"
+                  label="Lớp"
+                  variant="outlined"
                 />
               </div>
               <div>
@@ -159,108 +224,153 @@ const AddStudent = () => {
               </div>
             </div>
             <div>
-              <div>
-                <label htmlFor="tonGiao">Tôn giáo:</label>
-                <select
-                  id="tonGiao"
-                  name="tonGiao"
-                  value={formData.tonGiao}
-                  onChange={handleChange}
-                  className="border border-gray-300 rounded px-3 py-2 w-full bg-white"
-                >
-                  <option value="">Chọn tôn giáo</option>
-                  <option value="không">Không</option>
-                  {/* Thêm các tùy chọn cho tôn giáo từ dữ liệu hoặc cứng cố định */}
-                </select>
-              </div>
-              <div>
-                <label htmlFor="tinh">Tỉnh/Thành phố:</label>
-                <select
-                  id="tinh"
-                  name="tinh"
-                  value={formData.tinh}
-                  onChange={handleChange}
-                  className="border border-gray-300 rounded px-3 py-2 w-full bg-white"
-                >
-                  <option value="">Chọn tỉnh/thành phố</option>
-                  <option value="Hà nội">Hà nội</option>
-                  {/* Thêm các tùy chọn cho tỉnh/thành phố từ dữ liệu hoặc cứng cố định */}
-                </select>
-              </div>
-              <div>
-                <label htmlFor="huyen">Quận/Huyện:</label>
-                <select
-                  id="huyen"
-                  name="huyen"
-                  value={formData.huyen}
-                  onChange={handleChange}
-                  className="border border-gray-300 rounded px-3 py-2 w-full bg-white"
-                >
-                  <option value="">Chọn quận/huyện</option>
-                  <option value="Cầu Giấy">Cầu Giấy</option>
-                  {/* Tùy chọn cho quận/huyện sẽ tự động cập nhật dựa trên tỉnh/thành phố đã chọn */}
-                </select>
-              </div>
-              <div>
-                <label htmlFor="xa">Xã/Phường:</label>
-                <select
-                  id="xa"
-                  name="xa"
-                  value={formData.xa}
-                  onChange={handleChange}
-                  className="border border-gray-300 rounded px-3 py-2 w-full bg-white"
-                >
-                  <option value="">Chọn xã/phường</option>
-                  <option value="Phường 0">Phường 0</option>
-                  {/* Tùy chọn cho xã/phường sẽ tự động cập nhật dựa trên quận/huyện đã chọn */}
-                </select>
-              </div>
-              <div>
-                <label htmlFor="noiSinh">Nơi sinh:</label>
-                <input
+              <Box sx={{ minWidth: 120 }} className="mb-2">
+                <FormControl fullWidth size="small">
+                  <InputLabel id="demo-simple-select-label">
+                    Tôn giáo
+                  </InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    label="Tôn giáo"
+                    name="tonGiao"
+                    value={formData.tonGiao}
+                    onChange={handleChange}
+                  >
+                    <MenuItem value="">Tôn giáo</MenuItem>
+                    <MenuItem value="true">Nam</MenuItem>
+                    <MenuItem value="false">Nữ</MenuItem>
+                  </Select>
+                </FormControl>
+              </Box>
+
+              <Box sx={{ minWidth: 120 }} className="mb-2">
+                <FormControl fullWidth size="small">
+                  <InputLabel id="demo-simple-select-label">
+                    Tỉnh/Thành phố
+                  </InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    label="Tỉnh/Thành phố"
+                    name="tinh"
+                    value={formData.tinh}
+                    onChange={handleChange}
+                  >
+                    {city.map((item, index) => {
+                      return (
+                        <MenuItem value={item.id} key={index}>
+                          {item.name}
+                        </MenuItem>
+                      );
+                    })}
+                  </Select>
+                </FormControl>
+              </Box>
+              <Box sx={{ minWidth: 120 }} className="mb-2">
+                <FormControl fullWidth size="small">
+                  <InputLabel id="demo-simple-select-label">Huyện</InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    label="Huyện"
+                    name="huyen"
+                    value={formData.huyen}
+                    onChange={handleChange}
+                    disabled={!isCitySelected}
+                  >
+                    {district.map((item, index) => (
+                      <MenuItem key={index} value={item.id}>
+                        {item.name}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </Box>
+
+              <Box sx={{ minWidth: 120 }} className="mb-2">
+                <FormControl fullWidth size="small">
+                  <InputLabel id="demo-simple-select-label">
+                    Xã/Phường
+                  </InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    label="Xã/Phường"
+                    name="xa"
+                    value={formData.xa}
+                    onChange={handleChange}
+                  >
+                    <MenuItem value="">Tôn giáo</MenuItem>
+                    <MenuItem value="true">Nam</MenuItem>
+                    <MenuItem value="false">Nữ</MenuItem>
+                  </Select>
+                </FormControl>
+              </Box>
+
+              <div className="mb-2">
+                <TextField
+                  className="w-full"
+                  size="small"
                   type="text"
-                  id="noiSinh"
+                  id="outlined-basic"
                   name="noiSinh"
                   value={formData.noiSinh}
                   onChange={handleChange}
-                  className="border border-gray-300 rounded px-3 py-2 w-full bg-white"
+                  label="Nơi sinh"
+                  variant="outlined"
                 />
               </div>
-              <div>
-                <label htmlFor="thuongTru">Địa chỉ thường trú:</label>
-                <input
+
+              <div className="mb-2">
+                <TextField
+                  className="w-full"
+                  size="small"
                   type="text"
-                  id="thuongTru"
+                  id="outlined-basic"
                   name="thuongTru"
                   value={formData.thuongTru}
                   onChange={handleChange}
-                  className="border border-gray-300 rounded px-3 py-2 w-full bg-white"
+                  label="Địa chỉ thường trú"
+                  variant="outlined"
                 />
               </div>
-              <div>
-                <label htmlFor="tamTru">Địa chỉ tạm trú:</label>
-                <input
+
+              <div className="mb-2">
+                <TextField
+                  className="w-full"
+                  size="small"
                   type="text"
-                  id="tamTru"
+                  id="outlined-basic"
                   name="tamTru"
                   value={formData.tamTru}
                   onChange={handleChange}
-                  className="border border-gray-300 rounded px-3 py-2 w-full bg-white"
+                  label="Địa chỉ tạm trú"
+                  variant="outlined"
                 />
               </div>
-              <div>
-                <label htmlFor="danToc">Dân tộc:</label>
-                <select
-                  id="danToc"
-                  name="danToc"
-                  value={formData.danToc}
-                  onChange={handleChange}
-                  className="border border-gray-300 rounded px-3 py-2 w-full bg-white"
-                >
-                  <option value="">Chọn dân tộc</option>
-                  <option value="kinh">Kinh</option>
-                </select>
-              </div>
+
+              <Box sx={{ minWidth: 120 }} className="mb-2">
+                <FormControl fullWidth size="small">
+                  <InputLabel id="demo-simple-select-label">Dân tộc</InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={formData.danToc}
+                    label="Dân tộc"
+                    name="danToc"
+                    onChange={handleChange}
+                  >
+                    {ethnic.map((item, index) => {
+                      return (
+                        <MenuItem value={item.id} key={index}>
+                          {item.name}
+                        </MenuItem>
+                      );
+                    })}
+                  </Select>
+                </FormControl>
+              </Box>
               <button
                 onClick={handleSubmit}
                 type="submit"
