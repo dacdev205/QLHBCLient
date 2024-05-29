@@ -16,7 +16,7 @@ const AddStudent = () => {
   const initialFormData = {
     hoTen: "",
     ngaySinh: "",
-    gioiTinh: false,
+    gioiTinh: "",
     maDinhDanh: "",
     email: "",
     hinhAnh: null,
@@ -30,7 +30,7 @@ const AddStudent = () => {
     tonGiao: "",
     maHs: "",
     lop: "",
-    trangThai: true,
+    trangThai: "",
     nhapHoc: "",
   };
   useEffect(() => {
@@ -128,18 +128,22 @@ const AddStudent = () => {
                   onChange={handleChange}
                 />
               </div>
-              <div className="mb-2 ">
-                <label htmlFor="ngaySinh">Ngày sinh:</label>
-                <input
-                  type="date"
-                  id="ngaySinh"
-                  name="ngaySinh"
-                  value={formData.ngaySinh}
+              <div className="mb-2">
+              <TextField
+                  className="w-full"
+                  size="small"
+                  type="text"
+                  id="outlined-basic"
+                  name="lop"
+                  value={formData.lop}
                   onChange={handleChange}
-                  className="border border-gray-300 rounded px-3 py-2 w-full bg-white"
+                  label="Lớp"
+                  variant="outlined"
                 />
-              </div>
-
+              </div> 
+                
+              
+              <div className="mb-2">
               <Box sx={{ minWidth: 120 }} className="mb-2">
                 <FormControl fullWidth size="small">
                   <InputLabel id="demo-simple-select-label" className="w-full">
@@ -160,33 +164,6 @@ const AddStudent = () => {
                 </FormControl>
               </Box>
               <div className="mb-2">
-                
-                <TextField
-                  className="w-full"
-                  size="small"
-                  type="text"
-                  id="outlined-basic"
-                  name="maDinhDanh"
-                  label="Mã Định Danh"
-                  value={formData.maDinhDanh}
-                  onChange={handleChange}
-                  variant="outlined"
-                />
-              </div>
-              <div className="mb-2">
-                <TextField
-                  className="w-full"
-                  size="small"
-                  type="text"
-                  id="outlined-basic"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  label="Email"
-                  variant="outlined"
-                />
-              </div>
-              <div className="mb-2">
                 <TextField
                   className="w-full"
                   size="small"
@@ -201,18 +178,67 @@ const AddStudent = () => {
               </div>
 
               <div className="mb-2">
+              <TextField
+                  className="w-full"
+                  size="small"
+                  type="text"
+                  id="outlined-basic"
+                  name="maDinhDanh"
+                  label="Mã Định Danh"
+                  value={formData.maDinhDanh}
+                  onChange={handleChange}
+                  variant="outlined"
+                />
+              </div>
+              
+              <Box sx={{ minWidth: 120 }} className="mb-2">
+                <FormControl fullWidth size="small">
+                  <InputLabel id="demo-simple-select-label" className="w-full">
+                    Trạng thái
+                  </InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    label="Giới tính"
+                    value={formData.trangThai}
+                    onChange={handleChange}
+                    name="gioiTinh"
+                  >
+                    <MenuItem value="null">Trạng hái</MenuItem>
+                    <MenuItem value="true">Đang Học</MenuItem>
+                    <MenuItem value="false">Không Học</MenuItem>
+                  </Select>
+                </FormControl>
+              </Box>
+                
+              </div>
+              <div className="mb-2">
                 <TextField
                   className="w-full"
                   size="small"
                   type="text"
                   id="outlined-basic"
-                  name="lop"
-                  value={formData.lop}
+                  name="email"
+                  value={formData.email}
                   onChange={handleChange}
-                  label="Lớp"
+                  label="Email"
                   variant="outlined"
                 />
               </div>
+             
+
+              <div className="mb-2">
+                <label htmlFor="ngaySinh">Ngày sinh:</label>
+                <input
+                  type="date"
+                  id="ngaySinh"
+                  name="ngaySinh"
+                  value={formData.ngaySinh}
+                  onChange={handleChange}
+                  className="border border-gray-300 rounded px-3 py-2 w-full bg-white"
+                />
+              </div>
+              
               <div>
                 <label htmlFor="nhapHoc">Ngày nhập học:</label>
                 <input
