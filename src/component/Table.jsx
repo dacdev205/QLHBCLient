@@ -23,8 +23,9 @@ const Table = () => {
     axios
       .get(`${LINK_API}`)
       .then((response) => {
-        setStudents(response.data);
-        setFilteredStudents(response.data);
+        const data = Array.isArray(response.data) ? response.data : [];
+        setStudents(data);
+        setFilteredStudents(data);
       })
       .catch((error) => console.error("Error fetching data:", error));
   }, []);
@@ -194,21 +195,21 @@ const Table = () => {
                         onClose={() => handleClose(student.id)}
                         TransitionComponent={Fade}
                       >
-                        <MenuItem onClick={() => handleClose(student.id)}>
-                          <VisibilityIcon className="mr-2" />
-                          <Link to={`/student-detail/${student.id}`}>
+                        <Link to={`/student-detail/${student.id}`}>
+                          <MenuItem onClick={() => handleClose(student.id)}>
+                            <VisibilityIcon className="mr-2" />
                             Xem hồ sơ
-                          </Link>
-                        </MenuItem>
-                        <Divider />
+                          </MenuItem>
+                          <Divider />
+                        </Link>
 
-                        <MenuItem onClick={() => handleClose(student.id)}>
-                          <BorderColorIcon className="mr-2" />
-                          <Link to={`/student-edit/${student.id}`}>
+                        <Link to={`/student-edit/${student.id}`}>
+                          <MenuItem onClick={() => handleClose(student.id)}>
+                            <BorderColorIcon className="mr-2" />
                             Sửa hồ sơ
-                          </Link>
-                        </MenuItem>
-                        <Divider />
+                          </MenuItem>
+                          <Divider />
+                        </Link>
 
                         <MenuItem onClick={() => handleClose(student.id)}>
                           <DeleteIcon className="mr-2" />
@@ -218,11 +219,14 @@ const Table = () => {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm">
                       {student.ngaySinh
-                        ? new Date(student.ngaySinh).toLocaleDateString("en-GB", {
-                            day: "2-digit",
-                            month: "2-digit",
-                            year: "numeric"
-                          })
+                        ? new Date(student.ngaySinh).toLocaleDateString(
+                            "en-GB",
+                            {
+                              day: "2-digit",
+                              month: "2-digit",
+                              year: "numeric",
+                            }
+                          )
                         : "N/A"}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm">

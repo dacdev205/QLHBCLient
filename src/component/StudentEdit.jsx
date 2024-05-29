@@ -33,9 +33,13 @@ const StudentEdit = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    let parsedValue = value;
+    if (name === "gioiTinh" || name === "trangThai") {
+      parsedValue = value === "true";
+    }
     setStudent((prevState) => ({
       ...prevState,
-      [name]: value,
+      [name]: parsedValue,
     }));
   };
 
@@ -80,7 +84,8 @@ const StudentEdit = () => {
           <div className="col-span-1 md:col-span-1 lg:col-span-2">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mr-10">
               <div>
-              <TextField
+                <TextField
+                  size="small"
                   label="Họ và tên"
                   name="hoTen"
                   value={student.hoTen || ""}
@@ -89,6 +94,7 @@ const StudentEdit = () => {
                   margin="normal"
                 />
                 <TextField
+                  size="small"
                   label="Lớp"
                   name="lop"
                   value={student.lop || ""}
@@ -96,19 +102,20 @@ const StudentEdit = () => {
                   fullWidth
                   margin="normal"
                 />
-                <FormControl fullWidth margin="normal">
+                <FormControl fullWidth margin="normal" size="small">
                   <InputLabel>Giới tính</InputLabel>
                   <Select
                     name="gioiTinh"
                     label="Giới tính"
-                    value={student.gioiTinh || ""}
+                    value={student.gioiTinh ? "true" : "false"}
                     onChange={handleChange}
                   >
-                    <MenuItem value={true}>Nam</MenuItem>
-                    <MenuItem value={false}>Nữ</MenuItem>
+                    <MenuItem value="true">Nam</MenuItem>
+                    <MenuItem value="false">Nữ</MenuItem>
                   </Select>
                 </FormControl>
                 <TextField
+                  size="small"
                   label="Mã học sinh"
                   name="maHs"
                   value={student.maHs || ""}
@@ -116,7 +123,20 @@ const StudentEdit = () => {
                   fullWidth
                   margin="normal"
                 />
-                 <TextField
+                <FormControl fullWidth margin="normal" size="small">
+                  <InputLabel>Trạng thái</InputLabel>
+                  <Select
+                    name="trangThai"
+                    label="Trạng thái"
+                    value={student.trangThai ? "true" : "false"}
+                    onChange={handleChange}
+                  >
+                    <MenuItem value="true">Đang học</MenuItem>
+                    <MenuItem value="false">Không học</MenuItem>
+                  </Select>
+                </FormControl>
+                <TextField
+                  size="small"
                   label="Mã định danh"
                   name="maDinhDanh"
                   value={student.maDinhDanh || ""}
@@ -124,20 +144,8 @@ const StudentEdit = () => {
                   fullWidth
                   margin="normal"
                 />
-            
-                <FormControl fullWidth margin="normal">
-                  <InputLabel>Trạng thái</InputLabel>
-                  <Select
-                    name="trangThai"
-                    label="Trạng thái"
-                    value={student.trangThai || ""}
-                    onChange={handleChange}
-                  >
-                    <MenuItem value={true}>Đang học</MenuItem>
-                    <MenuItem value={false}>Không Học</MenuItem>
-                  </Select>
-                </FormControl>
                 <TextField
+                  size="small"
                   label="Ngày sinh"
                   type="date"
                   name="ngaySinh"
@@ -154,6 +162,7 @@ const StudentEdit = () => {
                   }}
                 />
                 <TextField
+                  size="small"
                   label="Ngày vào trường"
                   type="date"
                   name="nhapHoc"
@@ -169,11 +178,11 @@ const StudentEdit = () => {
                     shrink: true,
                   }}
                 />
-              
               </div>
               <div>
-              <TextField
+                <TextField
                   label="Tôn giáo"
+                  size="small"
                   name="tonGiao"
                   value={student.tonGiao || ""}
                   onChange={handleChange}
@@ -184,30 +193,33 @@ const StudentEdit = () => {
                   label="Dân tộc"
                   name="danToc"
                   value={student.danToc || ""}
+                  size="small"
                   onChange={handleChange}
                   fullWidth
                   margin="normal"
                 />
-              <TextField
+                <TextField
                   label="Nơi sinh"
                   name="noiSinh"
                   value={student.noiSinh || ""}
+                  size="small"
                   onChange={handleChange}
                   fullWidth
                   margin="normal"
                 />
-              <TextField
+                <TextField
                   label="Thành Phố/Tỉnh"
                   name="tinh"
+                  size="small"
                   value={student.tinh || ""}
                   onChange={handleChange}
                   fullWidth
                   margin="normal"
                 />
-                
                 <TextField
                   label="Quận/Huyện"
                   name="huyen"
+                  size="small"
                   value={student.huyen || ""}
                   onChange={handleChange}
                   fullWidth
@@ -216,6 +228,7 @@ const StudentEdit = () => {
                 <TextField
                   label="Phường/Xã"
                   name="xa"
+                  size="small"
                   value={student.xa || ""}
                   onChange={handleChange}
                   fullWidth
@@ -225,6 +238,7 @@ const StudentEdit = () => {
                   label="Địa chỉ thường trú"
                   name="thuongTru"
                   value={student.thuongTru || ""}
+                  size="small"
                   onChange={handleChange}
                   fullWidth
                   margin="normal"
@@ -232,6 +246,7 @@ const StudentEdit = () => {
                 <TextField
                   label="Địa chỉ tạm trú"
                   name="tamTru"
+                  size="small"
                   value={student.tamTru || ""}
                   onChange={handleChange}
                   fullWidth
@@ -244,7 +259,6 @@ const StudentEdit = () => {
                 </div>
               </div>
             </div>
-            
           </div>
         </div>
       </form>
