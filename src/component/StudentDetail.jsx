@@ -37,6 +37,7 @@ const StudentDetail = () => {
                 Giới tính: {student.gioiTinh ? "Nam" : "Nữ"}
               </div>
               <div className="mb-4">Mã học sinh: {student.maHs}</div>
+              <div className="mb-4">Mã định danh: {student.maDinhDanh}</div>
               <div className="mb-4 ">
                 Trạng thái: {student.trangThai ? "Đang học" : "Không Học"}
               </div> 
@@ -66,6 +67,8 @@ const StudentDetail = () => {
             </div>
 
             <div>
+              <div className="mb-4">Tôn Giáo: {student.tonGiao}</div>
+              <div className="mb-4">Dân Tộc: {student.danToc}</div>
               <div className="mb-4">Thành Phố/Tỉnh: {student.tinh}</div>
               <div className="mb-4">Quận/Huyện: {student.huyen}</div>
               <div className="mb-4">Phường/Xã: {student.xa}</div>

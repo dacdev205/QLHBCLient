@@ -116,13 +116,21 @@ const StudentEdit = () => {
                   fullWidth
                   margin="normal"
                 />
-                
+                 <TextField
+                  label="Mã định danh"
+                  name="maDinhDanh"
+                  value={student.maDinhDanh || ""}
+                  onChange={handleChange}
+                  fullWidth
+                  margin="normal"
+                />
+            
                 <FormControl fullWidth margin="normal">
                   <InputLabel>Trạng thái</InputLabel>
                   <Select
                     name="trangThai"
                     label="Trạng thái"
-                    value={student.trangThai}
+                    value={student.trangThai || ""}
                     onChange={handleChange}
                   >
                     <MenuItem value={true}>Đang học</MenuItem>
@@ -164,6 +172,22 @@ const StudentEdit = () => {
               
               </div>
               <div>
+              <TextField
+                  label="Tôn giáo"
+                  name="tonGiao"
+                  value={student.tonGiao || ""}
+                  onChange={handleChange}
+                  fullWidth
+                  margin="normal"
+                />
+                <TextField
+                  label="Dân tộc"
+                  name="danToc"
+                  value={student.danToc || ""}
+                  onChange={handleChange}
+                  fullWidth
+                  margin="normal"
+                />
               <TextField
                   label="Nơi sinh"
                   name="noiSinh"

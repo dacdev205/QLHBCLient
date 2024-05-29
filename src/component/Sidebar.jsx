@@ -41,6 +41,11 @@ const Sidebar = () => {
                 Hồ sơ học sinh
               </Link>
             </li>
+            <li>
+              <Link className="" to="/teacher-managerment">
+                Hồ sơ giáo viên
+              </Link>
+            </li>
           </ul>
         </div>
       </div>
