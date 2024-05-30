@@ -11,6 +11,8 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import DeleteIcon from "@mui/icons-material/Delete";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
 import { LINK_API } from "../globalAPI/linkAPI";
+import Checkbox from "@mui/material/Checkbox";
+import { green } from "@mui/material/colors";
 
 const Table = () => {
   const [students, setStudents] = useState([]);
@@ -96,22 +98,25 @@ const Table = () => {
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-teal-600 text-white">
               <tr>
+                <th>
+                  <Checkbox
+                    checked={allChecked}
+                    onChange={handleAllCheckedChange}
+                    sx={{
+                      color: green[800],
+                      "&.Mui-checked": {
+                        color: green[600],
+                      },
+                    }}
+                  />
+                </th>
                 <th
                   scope="col"
                   className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider"
                 >
                   STT
                 </th>
-                <th
-                  scope="col"
-                  className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider"
-                >
-                  <input
-                    type="checkbox"
-                    checked={allChecked}
-                    onChange={handleAllCheckedChange}
-                  />
-                </th>
+
                 <th
                   scope="col"
                   className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider"
@@ -162,14 +167,19 @@ const Table = () => {
                 filteredStudents.map((student, index) => (
                   <tr key={student.id}>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                      {index + 1}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                      <input
-                        type="checkbox"
+                      <Checkbox
+                        sx={{
+                          color: green[900],
+                          "&.Mui-checked": {
+                            color: green[900],
+                          },
+                        }}
                         checked={selectedStudents.includes(student.id)}
                         onChange={() => handleStudentCheckedChange(student.id)}
                       />
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                      {index + 1}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                       <Button
@@ -177,6 +187,9 @@ const Table = () => {
                         aria-controls={
                           anchorEls[student.id] ? "fade-menu" : undefined
                         }
+                        sx={{
+                          color: green[900],
+                        }}
                         aria-haspopup="true"
                         aria-expanded={
                           anchorEls[student.id] ? "true" : undefined
@@ -197,7 +210,7 @@ const Table = () => {
                       >
                         <Link to={`/student-detail/${student.id}`}>
                           <MenuItem onClick={() => handleClose(student.id)}>
-                            <VisibilityIcon className="mr-2" />
+                            <VisibilityIcon className="mr-2" size="20px" />
                             Xem hồ sơ
                           </MenuItem>
                           <Divider />
