@@ -32,7 +32,7 @@ const Table = () => {
       .catch((error) => console.error("Error fetching data:", error));
   }, []);
 
-  const handleAllCheckedChange = () => {
+  const handleAllCheckedChange = (student) => {
     const newAllChecked = !allChecked;
     setAllChecked(newAllChecked);
     if (newAllChecked) {
@@ -52,7 +52,10 @@ const Table = () => {
 
   const handleDeleteSelectedStudents = () => {
     axios
-      .delete(`${LINK_API}/${selectedStudents.join(",")}`)
+      .delete(`${LINK_API}/delete-multiple`, {
+        data: selectedStudents,
+      })
+
       .then(() => {
         setFilteredStudents((prevState) =>
           prevState.filter((student) => !selectedStudents.includes(student.id))
@@ -94,7 +97,7 @@ const Table = () => {
             Xoá
           </button>
         </div>
-        <div className="bg-white text-teal-800 p-4 rounded-lg shadow-md overflow-auto">
+        <div className="bg-white p-4 rounded-lg shadow-md overflow-auto">
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-teal-600 text-white">
               <tr>
@@ -210,7 +213,7 @@ const Table = () => {
                       >
                         <Link to={`/student-detail/${student.id}`}>
                           <MenuItem onClick={() => handleClose(student.id)}>
-                            <VisibilityIcon className="mr-2" size="20px" />
+                            <VisibilityIcon className="mr-2" fontSize="small" />
                             Xem hồ sơ
                           </MenuItem>
                           <Divider />
@@ -218,16 +221,14 @@ const Table = () => {
 
                         <Link to={`/student-edit/${student.id}`}>
                           <MenuItem onClick={() => handleClose(student.id)}>
-                            <BorderColorIcon className="mr-2" />
+                            <BorderColorIcon
+                              className="mr-2"
+                              fontSize="small"
+                            />
                             Sửa hồ sơ
                           </MenuItem>
                           <Divider />
                         </Link>
-
-                        <MenuItem onClick={() => handleClose(student.id)}>
-                          <DeleteIcon className="mr-2" />
-                          Xoá hồ sơ
-                        </MenuItem>
                       </Menu>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm">
