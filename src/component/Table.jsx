@@ -216,13 +216,13 @@ const Table = () => {
                           <Divider />
                         </Link>
 
-                        <Link to={`/student-edit/${student.id}`}>
+                        {/* <Link to={`/student-edit/${student.id}`}>
                           <MenuItem onClick={() => handleClose(student.id)}>
                             <BorderColorIcon className="mr-2" />
                             Sửa hồ sơ
                           </MenuItem>
                           <Divider />
-                        </Link>
+                        </Link> */}
                       </Menu>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm">
