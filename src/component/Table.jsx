@@ -32,7 +32,7 @@ const Table = () => {
       .catch((error) => console.error("Error fetching data:", error));
   }, []);
 
-  const handleAllCheckedChange = (student) => {
+  const handleAllCheckedChange = () => {
     const newAllChecked = !allChecked;
     setAllChecked(newAllChecked);
     if (newAllChecked) {
@@ -52,10 +52,7 @@ const Table = () => {
 
   const handleDeleteSelectedStudents = () => {
     axios
-      .delete(`${LINK_API}/delete-multiple`, {
-        data: selectedStudents,
-      })
-
+      .delete(`${LINK_API}/${selectedStudents.join(",")}`)
       .then(() => {
         setFilteredStudents((prevState) =>
           prevState.filter((student) => !selectedStudents.includes(student.id))
@@ -97,7 +94,7 @@ const Table = () => {
             Xoá
           </button>
         </div>
-        <div className="bg-white p-4 rounded-lg shadow-md overflow-auto">
+        <div className="bg-white text-teal-800 p-4 rounded-lg shadow-md overflow-auto">
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-teal-600 text-white">
               <tr>
@@ -165,7 +162,7 @@ const Table = () => {
                 </th>
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
+            <tbody className="bg-white divide-y divide-gray-200 text-black">
               {filteredStudents.length > 0 ? (
                 filteredStudents.map((student, index) => (
                   <tr key={student.id}>
@@ -213,7 +210,7 @@ const Table = () => {
                       >
                         <Link to={`/student-detail/${student.id}`}>
                           <MenuItem onClick={() => handleClose(student.id)}>
-                            <VisibilityIcon className="mr-2" fontSize="small" />
+                            <VisibilityIcon className="mr-2" size="20px" />
                             Xem hồ sơ
                           </MenuItem>
                           <Divider />
@@ -221,10 +218,7 @@ const Table = () => {
 
                         <Link to={`/student-edit/${student.id}`}>
                           <MenuItem onClick={() => handleClose(student.id)}>
-                            <BorderColorIcon
-                              className="mr-2"
-                              fontSize="small"
-                            />
+                            <BorderColorIcon className="mr-2" />
                             Sửa hồ sơ
                           </MenuItem>
                           <Divider />
