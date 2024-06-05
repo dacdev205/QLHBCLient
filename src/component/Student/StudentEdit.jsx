@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { LINK_API } from "../globalAPI/linkAPI";
+import { LINK_API } from "../../globalAPI/linkAPI";
 import {
   TextField,
   Select,
@@ -15,12 +15,12 @@ const StudentEdit = () => {
   const { id } = useParams();
   const [student, setStudent] = useState({});
   const [newImage, setNewImage] = useState(null);
-  const PF = `${LINK_API}/${id}/image`;
+  const PF = `${LINK_API}hocsinh/${id}/image`;
 
   useEffect(() => {
     function getStudentById() {
       axios
-        .get(`${LINK_API}/${id}`)
+        .get(`${LINK_API}hocsinh/${id}`)
         .then((res) => {
           setStudent(res.data);
         })
@@ -54,13 +54,13 @@ const StudentEdit = () => {
         if (newImage) {
           const formData = new FormData();
           formData.append("image", newImage);
-          await axios.put(`${LINK_API}/${id}/edit-image`, formData, {
+          await axios.put(`${LINK_API}hocsinh/${id}/edit-image`, formData, {
             headers: {
               "Content-Type": "multipart/form-data",
             },
           });
         }
-        await axios.put(`${LINK_API}/${id}`, student);
+        await axios.put(`${LINK_API}hocsinh/${id}`, student);
       } catch (err) {
         console.error("Error updating student data:", err);
       }

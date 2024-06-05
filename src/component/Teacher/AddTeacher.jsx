@@ -1,13 +1,14 @@
-import axios from "axios";
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import Box from "@mui/material/Box";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { TextField } from "@mui/material";
+import { LINK_API } from "../../globalAPI/linkAPI";
 
-const AddStudent = () => {
+const AddTeacher = () => {
   const [ethnic, setEthnic] = useState([]);
   const [city, setCity] = useState([]);
   const [district, setDistrict] = useState([]);
@@ -18,7 +19,8 @@ const AddStudent = () => {
     hoTen: "",
     ngaySinh: "",
     gioiTinh: "",
-    maDinhDanh: "",
+    maGv: "",
+    cccd:"",
     email: "",
     hinhAnh: null,
     tinh: "",
@@ -29,10 +31,10 @@ const AddStudent = () => {
     tamTru: "",
     danToc: "",
     tonGiao: "",
-    maHs: "",
-    lop: "",
-    trangThai: "",
-    nhapHoc: "",
+    sdt: "",
+    trinhDo:"",
+    chungChiNn:"",
+    chungChiTh:"",
   };
 
   useEffect(() => {
@@ -97,16 +99,23 @@ const AddStudent = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const formDataWithGender = {
+      ...formData,
+      gioiTinh: formData.gioiTinh === "true",
+    };
     axios
-      .post("http://192.168.234.154:8080/api/hocsinh/add", formData)
+      .post(`${LINK_API}giaovien/add`, formDataWithGender)
       .then(() => {
         setFormData(initialFormData);
+      })
+      .catch((error) => {
+        console.error("Error adding teacher:", error);
       });
   };
 
   return (
     <div className="bg-white w-full min-h-screen text-black">
-      <h1>Thông tin chung</h1>
+      <h1>Thông tin giáo viên</h1>
       <div className="container mx-auto py-6 grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 min-h-screen bg-white gap-4">
         <div className="col-span-1 md:col-span-1 lg:col-span-2">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mr-10">
@@ -124,93 +133,63 @@ const AddStudent = () => {
                   onChange={handleChange}
                 />
               </div>
+              <Box sx={{ minWidth: 120 }} className="mb-2">
+                <FormControl fullWidth size="small">
+                  <InputLabel id="demo-simple-select-label">
+                    Giới tính
+                  </InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    label="Giới tính"
+                    value={formData.gioiTinh}
+                    onChange={handleChange}
+                    name="gioiTinh"
+                  >
+                    <MenuItem value="null">Giới tính</MenuItem>
+                    <MenuItem value="true">Nam</MenuItem>
+                    <MenuItem value="false">Nữ</MenuItem>
+                  </Select>
+                </FormControl>
+              </Box>
               <div className="mb-2">
                 <TextField
                   className="w-full"
                   size="small"
                   type="text"
                   id="outlined-basic"
-                  name="lop"
-                  value={formData.lop}
+                  name="maGv"
+                  label="Mã Giáo Viên"
+                  value={formData.maGv}
                   onChange={handleChange}
-                  label="Lớp"
                   variant="outlined"
                 />
               </div>
-
               <div className="mb-2">
-                <Box sx={{ minWidth: 120 }} className="mb-2">
-                  <FormControl fullWidth size="small">
-                    <InputLabel
-                      id="demo-simple-select-label"
-                      className="w-full"
-                    >
-                      Giới tính
-                    </InputLabel>
-                    <Select
-                      labelId="demo-simple-select-label"
-                      id="demo-simple-select"
-                      label="Giới tính"
-                      value={formData.gioiTinh}
-                      onChange={handleChange}
-                      name="gioiTinh"
-                    >
-                      <MenuItem value="null">Giới tính</MenuItem>
-                      <MenuItem value="true">Nam</MenuItem>
-                      <MenuItem value="false">Nữ</MenuItem>
-                    </Select>
-                  </FormControl>
-                </Box>
-                <div className="mb-2">
-                  <TextField
-                    className="w-full"
-                    size="small"
-                    type="text"
-                    id="outlined-basic"
-                    name="maHs"
-                    value={formData.maHs}
-                    onChange={handleChange}
-                    label="Mã học sinh"
-                    variant="outlined"
-                  />
-                </div>
-
-                <div className="mb-2">
-                  <TextField
-                    className="w-full"
-                    size="small"
-                    type="text"
-                    id="outlined-basic"
-                    name="maDinhDanh"
-                    label="Mã Định Danh"
-                    value={formData.maDinhDanh}
-                    onChange={handleChange}
-                    variant="outlined"
-                  />
-                </div>
-
-                <Box sx={{ minWidth: 120 }} className="mb-2">
-                  <FormControl fullWidth size="small">
-                    <InputLabel
-                      id="demo-simple-select-label"
-                      className="w-full"
-                    >
-                      Trạng thái
-                    </InputLabel>
-                    <Select
-                      labelId="demo-simple-select-label"
-                      id="demo-simple-select"
-                      label="Trạng thái"
-                      value={formData.trangThai}
-                      onChange={handleChange}
-                      name="trangThai"
-                    >
-                      <MenuItem value="null">Trạng thái</MenuItem>
-                      <MenuItem value="true">Đang Học</MenuItem>
-                      <MenuItem value="false">Không Học</MenuItem>
-                    </Select>
-                  </FormControl>
-                </Box>
+                <TextField
+                  className="w-full"
+                  size="small"
+                  type="text"
+                  id="outlined-basic"
+                  name="cccd"
+                  label="Căn Cước Công Dân"
+                  value={formData.cccd}
+                  onChange={handleChange}
+                  variant="outlined"
+                />
+              </div>
+              <div className="mb-2">
+                <TextField
+                  className="w-full"
+                  size="small"
+                  type="text"
+                  id="outlined-basic"
+                  name="sdt"
+                  label="Số Điện Thoại"
+                  value={formData.sdt}
+                  onChange={handleChange}
+                  variant="outlined"
+                />
               </div>
               <div className="mb-2">
                 <TextField
@@ -225,8 +204,46 @@ const AddStudent = () => {
                   variant="outlined"
                 />
               </div>
-
               <div className="mb-2">
+                <TextField
+                  className="w-full"
+                  size="small"
+                  type="text"
+                  id="outlined-basic"
+                  name="trinhDo"
+                  label="Trình Độ"
+                  value={formData.trinhDo}
+                  onChange={handleChange}
+                  variant="outlined"
+                />
+              </div>
+              <div className="mb-2">
+                <TextField
+                  className="w-full"
+                  size="small"
+                  type="text"
+                  id="outlined-basic"
+                  name="chungChiTh"
+                  value={formData.chungChiTh}
+                  onChange={handleChange}
+                  label="Chứng Chỉ Tin Học"
+                  variant="outlined"
+                />
+              </div>
+              <div className="mb-2">
+                <TextField
+                  className="w-full"
+                  size="small"
+                  type="text"
+                  id="outlined-basic"
+                  name="chungChiNn"
+                  value={formData.chungChiNn}
+                  onChange={handleChange}
+                  label="Chứng Chỉ Ngoại Ngữ"
+                  variant="outlined"
+                />
+              </div>
+              <div>
                 <label htmlFor="ngaySinh">Ngày sinh:</label>
                 <input
                   type="date"
@@ -237,44 +254,57 @@ const AddStudent = () => {
                   className="border border-gray-300 rounded px-3 py-2 w-full bg-white"
                 />
               </div>
-
-              <div>
-                <label htmlFor="nhapHoc">Ngày nhập học:</label>
-                <input
-                  type="date"
-                  id="nhapHoc"
-                  name="nhapHoc"
-                  value={formData.nhapHoc}
-                  onChange={handleChange}
-                  className="border border-gray-300 rounded px-3 py-2 w-full bg-white"
-                />
-              </div>
             </div>
             <div>
-              <Box sx={{ minWidth: 120 }} className="mb-2">
+                <div className="mb-2">
+                    <TextField
+                    className="w-full"
+                    size="small"
+                    type="text"
+                    id="outlined-basic"
+                    name="tonGiao"
+                    label="Tôn Giáo"
+                    value={formData.tonGiao}
+                    onChange={handleChange}
+                    variant="outlined"
+                    />
+                </div>
+                <Box sx={{ minWidth: 120 }} className="mb-2">
                 <FormControl fullWidth size="small">
-                  <InputLabel id="demo-simple-select-label">
-                    Tôn giáo
-                  </InputLabel>
+                  <InputLabel id="demo-simple-select-label">Dân tộc</InputLabel>
                   <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
-                    label="Tôn giáo"
-                    name="tonGiao"
-                    value={formData.tonGiao}
+                    value={formData.danToc}
+                    label="Dân tộc"
+                    name="danToc"
                     onChange={handleChange}
                   >
-                    <MenuItem value="">Tôn giáo</MenuItem>
-                    <MenuItem value="true">Nam</MenuItem>
-                    <MenuItem value="false">Nữ</MenuItem>
+                    {ethnic.map((item, index) => (
+                      <MenuItem value={item.name} key={index}>
+                        {item.name}
+                      </MenuItem>
+                    ))}
                   </Select>
                 </FormControl>
               </Box>
-
+              <div className="mb-2">
+                <TextField
+                  className="w-full"
+                  size="small"
+                  type="text"
+                  id="outlined-basic"
+                  name="noiSinh"
+                  value={formData.noiSinh}
+                  onChange={handleChange}
+                  label="Nơi sinh"
+                  variant="outlined"
+                />
+              </div>
               <Box sx={{ minWidth: 120 }} className="mb-2">
                 <FormControl fullWidth size="small">
                   <InputLabel id="demo-simple-select-label">
-                    Tỉnh/Thành phố
+                    Thành phố/Tỉnh
                   </InputLabel>
                   <Select
                     labelId="demo-simple-select-label"
@@ -294,7 +324,7 @@ const AddStudent = () => {
               </Box>
               <Box sx={{ minWidth: 120 }} className="mb-2">
                 <FormControl fullWidth size="small">
-                  <InputLabel id="demo-simple-select-label">Huyện</InputLabel>
+                  <InputLabel id="demo-simple-select-label">Quận/Huyện</InputLabel>
                   <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
@@ -312,11 +342,10 @@ const AddStudent = () => {
                   </Select>
                 </FormControl>
               </Box>
-
               <Box sx={{ minWidth: 120 }} className="mb-2">
                 <FormControl fullWidth size="small">
                   <InputLabel id="demo-simple-select-label">
-                    Xã/Phường
+                    Phường/Xã
                   </InputLabel>
                   <Select
                     labelId="demo-simple-select-label"
@@ -335,21 +364,7 @@ const AddStudent = () => {
                   </Select>
                 </FormControl>
               </Box>
-
-              <div className="mb-2">
-                <TextField
-                  className="w-full"
-                  size="small"
-                  type="text"
-                  id="outlined-basic"
-                  name="noiSinh"
-                  value={formData.noiSinh}
-                  onChange={handleChange}
-                  label="Nơi sinh"
-                  variant="outlined"
-                />
-              </div>
-
+              
               <div className="mb-2">
                 <TextField
                   className="w-full"
@@ -363,7 +378,6 @@ const AddStudent = () => {
                   variant="outlined"
                 />
               </div>
-
               <div className="mb-2">
                 <TextField
                   className="w-full"
@@ -377,26 +391,7 @@ const AddStudent = () => {
                   variant="outlined"
                 />
               </div>
-
-              <Box sx={{ minWidth: 120 }} className="mb-2">
-                <FormControl fullWidth size="small">
-                  <InputLabel id="demo-simple-select-label">Dân tộc</InputLabel>
-                  <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={formData.danToc}
-                    label="Dân tộc"
-                    name="danToc"
-                    onChange={handleChange}
-                  >
-                    {ethnic.map((item, index) => (
-                      <MenuItem value={item.name} key={index}>
-                        {item.name}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-              </Box>
+              
               <button
                 onClick={handleSubmit}
                 type="submit"
@@ -412,4 +407,4 @@ const AddStudent = () => {
   );
 };
 
-export default AddStudent;
+export default AddTeacher;

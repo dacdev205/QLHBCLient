@@ -32,18 +32,23 @@ const Sidebar = () => {
             {/* Sidebar content here */}
             <li className="font-bold">
               <Link to="/" className="flex justify-start mb-3 active-link">
-                Hệ thống quản lý học bạ
+                HỌC BẠ ĐIỆN TỬ
               </Link>
             </li>
             <hr />
             <li>
               <Link className="" to="/student-manager">
-                Hồ sơ học sinh
+                Quản Lý Học Sinh
               </Link>
             </li>
             <li>
-              <Link className="" to="/teacher-managerment">
-                Hồ sơ giáo viên
+              <Link className="" to="/teacher-manager">
+                Quản Lý Giáo Viên
+              </Link>
+            </li>
+            <li>
+              <Link className="" to="/class-manager">
+                Quản Lý Lớp Học
               </Link>
             </li>
           </ul>

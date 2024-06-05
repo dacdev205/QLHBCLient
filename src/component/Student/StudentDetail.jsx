@@ -1,16 +1,16 @@
 import axios from "axios";
 import React, { useState } from "react";
-import { LINK_API } from "../globalAPI/linkAPI";
+import { LINK_API } from "../../globalAPI/linkAPI";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 const StudentDetail = () => {
   const { id } = useParams();
   const [student, setStudent] = useState("");
-  const PF = `${LINK_API}/${id}/image`;
+  const PF = `${LINK_API}hocsinh/${id}/image`;
   useEffect(() => {
     function getStudentById() {
       axios
-        .get(`${LINK_API}/${id}`)
+        .get(`${LINK_API}hocsinh/${id}`)
         .then((res) => {
           setStudent(res.data);
           console.log(res.data);
@@ -23,7 +23,7 @@ const StudentDetail = () => {
   }, [id]);
   return (
     <div className="bg-white w-full min-h-screen text-black">
-      <h1>Thông tin chung</h1>
+      <h1>Hồ Sơ Học Sinh</h1>
       <div className="container mx-auto py-6 grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 min-h-screen bg-white gap-4">
         <div>
           {student.hinhAnh ? (

@@ -1,10 +1,14 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "../layout/App.jsx";
-import AddStudent from "../component/AddStudent.jsx";
-import Table from "../component/Table.jsx";
-import StudentDetail from "../component/StudentDetail.jsx";
-import StudentEdit from "../component/StudentEdit.jsx";
-import Dashboard from "../component/Dashboard.jsx";
+import AddStudent from "../component/Student/AddStudent.jsx";
+import StudentDetail from "../component/Student/StudentDetail.jsx";
+import StudentEdit from "../component/Student/StudentEdit.jsx";
+import TeacherManager from "../component/Teacher/TeacherManager.jsx";
+import Dashboard from "../component/Home/Dashboard.jsx";
+import StudentManager from "../component/Student/StudentManager.jsx";
+import TeacherDetail from "../component/Teacher/TeacherDetail.jsx";
+import TeacherEdit from "../component/Teacher/TeacherEdit.jsx";
+import AddTeacher from "../component/Teacher/AddTeacher.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -16,7 +20,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/student-manager",
-        element: <Table />,
+        element: <StudentManager />,
       },
       {
         path: "/addStudent",
@@ -29,6 +33,22 @@ const router = createBrowserRouter([
       {
         path: "/student-edit/:id",
         element: <StudentEdit />,
+      },
+      {
+        path: "/teacher-manager",
+        element: <TeacherManager />,
+      },
+      {
+        path: "/teacher-detail/:id",
+        element: <TeacherDetail />,
+      },
+      {
+        path: "/teacher-edit/:id",
+        element: <TeacherEdit />,
+      },
+      {
+        path: "/addTeacher",
+        element: <AddTeacher />,
       },
     ],
   },
