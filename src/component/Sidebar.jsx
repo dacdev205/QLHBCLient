@@ -37,7 +37,7 @@ const Sidebar = () => {
             </li>
             <hr />
             <li>
-              <Link className="" to="/">
+              <Link className="" to="/student-manager">
                 Hồ sơ học sinh
               </Link>
             </li>
